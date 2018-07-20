@@ -1,0 +1,35 @@
+---
+title: "Simulation exercise using the exponential function"
+author: "Rohil Narula"
+date: "20 July 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simulation exercise
+
+## Overview
+
+This simulation exercise will draw $40$ variables from a random exponential distributtion of data with $\lambda = 0.2$. A mean distribution of $1000$ simulations will be sampled and the mean and variance of this distribution, calculated. Finally, a simple histogram plot will be used to visualize the distribution.
+
+## Simulations
+
+In this section, the initial variables are set, then each sample of the simulations will be stored as a row in a matrix. As we have $1000$ simulations, the matrix will by default contain $1000$ rows (as well as $40$ columns).
+
+The initial variables are set first.
+
+```{r init}
+n <- 40
+lambda <- 0.2
+draws <- 1000
+```
+
+The matrix of the random draws is calculated using the standard `R` function `rexp()`.
+
+```{r matrix}
+simulations <- matrix(rexp(n * draws, lambda), nrow = draws)
+str(simulations)
+```
