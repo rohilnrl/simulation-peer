@@ -19,13 +19,27 @@ This simulation exercise will draw $40$ variables from a random exponential dist
 
 In this section, the initial variables are set, then each sample of the simulations will be stored as a row in a matrix. As we have $1000$ simulations, the matrix will by default contain $1000$ rows (as well as $40$ columns).
 
-The initial variables are set first.
+### Variable initialization
 
-```{r init}
+Loading initial packages.
+
+```{r init, warning=FALSE, message=FALSE}
+packages <- c('ggplot2', 'dplyr')
+sapply(packages, require, character.only = TRUE, quietly = TRUE)
+```
+
+The initial variables are set to the following values.
+
+```{r}
+set.seed(9)
 n <- 40
 lambda <- 0.2
 draws <- 1000
+theoreticalMean <- 1 / lambda
+theoreticalSD <- 1 / lambda
 ```
+
+### Simulated matrix generation
 
 The matrix of the random draws is calculated using the standard `R` function `rexp()`.
 
@@ -33,3 +47,21 @@ The matrix of the random draws is calculated using the standard `R` function `re
 simulations <- matrix(rexp(n * draws, lambda), nrow = draws)
 str(simulations)
 ```
+
+## Sample versus theoretical mean
+
+Calculating the means of the simulations.
+
+```{r}
+xBar <- rowMeans(simulations)
+c(mean(xBar), theoreticalMean)
+```
+
+Plotting the means.
+
+```{r, echo=FALSE}
+g <- ggplot(data.frame(x = xBar, y = seq_along(xBar)), aes(x = y, y = x))
+g + geom_point() + geom_hline(yintercept = mean(xBar), col = "salmon", lwd = 1.3) + geom_hline(yintercept = theoreticalMean, col = "aliceblue", lwd = 1.3) + theme_minimal()
+``` 
+
+As we can see in the data plot, the theoretical mean of the data and the estimated mean from the sample distribution almost overlap considering $1000$ simulations.
